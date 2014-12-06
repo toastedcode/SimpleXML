@@ -57,49 +57,31 @@ public class XmlDocument
       String filename)
    {
       DocumentBuilder db = null;
-      URL url = null;
       
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       try
       {
-         url = XmlDocument.class.getResource(filename);
+         db = dbf.newDocumentBuilder();
       }
       catch (Exception e)
       {
-         logger.log(Level.WARNING, "Exception!  Failed to get URL for XML document.");     
+         logger.log(Level.WARNING, "Exception!  Failed to get a new DocumentBuilder object.");    
       }
       
-      if (url == null)
+      if (db == null)
       {
-         logger.log(Level.WARNING, "Failed to get URL for XML document.");
+         logger.log(Level.WARNING, "Failed to get a new DocumentBuilder object.");            
       }
       else
       {
-         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
          try
          {
-            db = dbf.newDocumentBuilder();
+            document = db.parse(filename);
          }
-         catch (Exception e)
+         catch  (Exception e)
          {
-            logger.log(Level.WARNING, "Exception!  Failed to get a new DocumentBuilder object.");    
+            logger.log(Level.WARNING, "Exception!  Failed to parse the XML document.");  
          }
-         
-         if (db == null)
-         {
-            logger.log(Level.WARNING, "Failed to get a new DocumentBuilder object.");            
-         }
-         else
-         {
-            try
-            {
-               document = db.parse(url.toURI().toString());
-            }
-            catch  (Exception e)
-            {
-               logger.log(Level.WARNING, "Exception!  Failed to parse the XML document.");  
-            }
-         }
-         
       }
       
       return (document != null);      
