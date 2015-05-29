@@ -1,9 +1,12 @@
 package com.toast.xml;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -11,6 +14,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -77,6 +81,40 @@ public class XmlDocument
          try
          {
             document = db.parse(filename);
+         }
+         catch  (Exception e)
+         {
+            logger.log(Level.WARNING, "Exception!  Failed to parse the XML document.");  
+         }
+      }
+      
+      return (document != null);      
+   }
+   
+   public boolean load(
+      InputStream inputStream)
+   {
+      DocumentBuilder db = null;
+      
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      try
+      {
+         db = dbf.newDocumentBuilder();
+      }
+      catch (Exception e)
+      {
+         logger.log(Level.WARNING, "Exception!  Failed to get a new DocumentBuilder object.");    
+      }
+      
+      if (db == null)
+      {
+         logger.log(Level.WARNING, "Failed to get a new DocumentBuilder object.");            
+      }
+      else
+      {
+         try
+         {
+            document = db.parse(inputStream);
          }
          catch  (Exception e)
          {
