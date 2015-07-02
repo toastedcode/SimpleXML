@@ -64,7 +64,11 @@ public class XmlNode
    {
       ((Element)node).setAttribute(name, value);
    }
-
+   
+   public <T> void setAttribute(String name, T value)
+   {
+      ((Element)node).setAttribute(name, value.toString());
+   }
    
    public String getValue()
    {
@@ -77,7 +81,11 @@ public class XmlNode
    {
       node.setTextContent(value);
    }
-
+   
+   public <T> void setValue(T value)
+   {
+      node.setTextContent(value.toString());     
+   }
    
    public int getIntValue()
    {
@@ -214,6 +222,13 @@ public class XmlNode
       return (new XmlNode(childNode));
    }
    
+   public <T> XmlNode appendChild(String name, T value)
+   {
+      XmlNode node = appendChild(name);
+      node.setValue(value.toString());
+
+      return (node);      
+   }
    
    public XmlNodeList getChildren(
       String name)
