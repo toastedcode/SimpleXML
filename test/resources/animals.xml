@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animals>
+    <dog name="Ginger"></dog>
+    <dog name="Cheyenne"></dog>
+    <cat name="Polly"></cat>
+    <hamster name="Gizmo"></hamster>
+</animals>
