@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -85,41 +84,25 @@ public class XmlDocument
       }
    }
    
-   /*
-   public boolean load(
-      String filename)
+   public void load(String filename) throws IOException, XmlParseException
    {
-      DocumentBuilder db = null;
-      
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       try
       {
-         db = dbf.newDocumentBuilder();
-      }
-      catch (Exception e)
-      {
-         logger.log(Level.WARNING, "Exception!  Failed to get a new DocumentBuilder object.");    
-      }
-      
-      if (db == null)
-      {
-         logger.log(Level.WARNING, "Failed to get a new DocumentBuilder object.");            
-      }
-      else
-      {
-         try
-         {
-            document = db.parse(filename);
-         }
-         catch  (Exception e)
-         {
-            logger.log(Level.WARNING, "Exception!  Failed to parse the XML document.");  
-         }
-      }
-      
-      return (document != null);      
-   }
+         DocumentBuilder db = null;
+         
+         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
    
+         db = dbf.newDocumentBuilder();
+   
+         document = db.parse(filename);
+      }
+      catch (ParserConfigurationException | SAXException  e)
+      {
+         throw (new XmlParseException(e));
+      }
+   }
+
+   /*
    public boolean load(
       InputStream inputStream)
    {
@@ -155,6 +138,7 @@ public class XmlDocument
    }
    */
    
+   /*
    public void load(Path path) throws IOException, XmlParseException
    {
       DocumentBuilder db = null;
@@ -171,13 +155,10 @@ public class XmlDocument
          throw (new XmlParseException(e));
       }
    }
+   */
    
-   /*
-   public boolean save(
-      String filename)
+   public void save(String filename) throws IOException, XmlSerializeException
    {
-      boolean returnStatus = false;
-      
       try
       {
          TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -190,19 +171,14 @@ public class XmlDocument
          StreamResult result = new StreamResult(new FileWriter(filename));
          DOMSource source = new DOMSource(document);
          transformer.transform(source, result);
-         
-         returnStatus = true;
       }
-      catch (Exception e)
+      catch (TransformerException e)
       {
-         logger.log(Level.WARNING, "Exception!  Failed to save the XML document.");           
-         System.out.println(e.toString());
+         throw (new XmlSerializeException(e));
       }
-      
-      return (returnStatus);
    }
-   */
    
+   /*
    public void save(Path path) throws IOException, XmlSerializeException
    {
       try
@@ -224,6 +200,7 @@ public class XmlDocument
          throw (new XmlSerializeException(e));         
       }
    }
+   */
    
    public String toString()
    {
