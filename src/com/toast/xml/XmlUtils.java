@@ -1,7 +1,6 @@
 package com.toast.xml;
 
 import java.awt.Color;
-import java.lang.reflect.Field;
 
 import com.toast.xml.XmlNode;
 import com.toast.xml.exception.XmlFormatException;
@@ -64,11 +63,10 @@ public class XmlUtils
       {
          if (node.hasAttribute(attribute))
          {
-            Field field = Class.forName("java.awt.Color").getField(node.getAttribute(attribute).getValue().toLowerCase());
-            value = (Color)field.get(null);      
+            value = Color.decode(node.getAttribute(attribute).getValue());  
          }
       }
-      catch (NoSuchFieldException | ClassNotFoundException | IllegalAccessException | XmlFormatException e)
+      catch (NumberFormatException | XmlFormatException e)
       {
          value = null;
       }
